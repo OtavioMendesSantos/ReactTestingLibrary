@@ -1,4 +1,4 @@
-import styles from './CustomInput.module.scss'
+import styles from './Input.module.scss'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     text: string
@@ -7,8 +7,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const CustomInput = ({ text, ...props }: InputProps) => {
     return (
         <div className={styles.formControl}>
-            <input type="value" required  {...props} />
-            <label>
+            <input type="value"  required  {...props} />
+            <label aria-label={text}>
                 {text.split('').map((char: string, index: number) =>
                     <span
                         key={index}

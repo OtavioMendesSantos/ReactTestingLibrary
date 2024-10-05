@@ -2,14 +2,14 @@
 
 /* From Uiverse.io by gharsh11032000 */
 .button {
-    width: 100%;
+  width: 100%;
   cursor: pointer;
   position: relative;
-  padding: 10px 24px;
-  font-size: 18px;
+  padding: 12px 24px;
+  font-size: 1rem;
   color: $primary-color;
   border: 2px solid $primary-color;
-  border-radius: 34px;
+  border-radius: 2rem;
   background-color: transparent;
   font-weight: 600;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
@@ -29,14 +29,16 @@
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  &:hover::before {
-    scale: 3;
-  }
-
-  &:hover {
+  &:hover,
+  &:focus {
     color: #212121;
-    scale: 1.1;
+    scale: 1;
     box-shadow: 0 0px 20px $primary-color-shadow;
+    outline: none;
+    
+    &::before {
+      scale: 1;
+    }
   }
 
   &:active {
