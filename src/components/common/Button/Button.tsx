@@ -1,9 +1,7 @@
 import { ButtonHTMLAttributes } from 'react';
 import styles from './Button.module.scss';
 
-interface CustomButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
-
-const CustomButton = ({ children, ...props }: CustomButtonProps) => {
+const CustomButton = ({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button className={styles.button} {...props}>{children}</button>
   )
