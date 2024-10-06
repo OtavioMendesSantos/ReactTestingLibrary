@@ -6,11 +6,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     error?: string | null;
 }
 
-const CustomInput = ({ label, error, ...props }: InputProps) => {
+const Input = ({ label, error, ...props }: InputProps) => {
+    const inputId = props.id || label.toLowerCase();
     return (
         <div className={styles.formControl}>
-            <input type="value" required  {...props} />
-            <label aria-label={label}>
+            <input id={inputId} required  {...props} />
+            <label htmlFor={inputId}>
                 {label.split('').map((char: string, index: number) =>
                     <span
                         key={index}
@@ -23,4 +24,4 @@ const CustomInput = ({ label, error, ...props }: InputProps) => {
         </div>)
 }
 
-export default CustomInput
+export default Input

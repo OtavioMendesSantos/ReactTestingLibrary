@@ -6,8 +6,8 @@ const LoginSection = () => {
     const email = useForm({ type: 'email' })
     const senha = useForm({ type: 'password' })
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        console.log("Clicou Login", e)
+    const handleClick = (_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        console.log("Clicou Login")
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,7 +17,6 @@ const LoginSection = () => {
 
     const register = async () => {
         try {
-
             const payload = {
                 email: email.value,
                 password: senha.value,
@@ -33,7 +32,7 @@ const LoginSection = () => {
 
             const response = await fetch('https://reqres.in/api/login', options)
             const data = await response.json()
-            alert(JSON.stringify(data))
+            window.alert(JSON.stringify(data))
         }
         catch (error) {
             console.log(error)
@@ -46,8 +45,20 @@ const LoginSection = () => {
                 onSubmit={handleSubmit}
                 style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%', height: '100%', justifyContent: 'space-between' }}
             >
-                <Input label="Email" {...email} />
-                <Input label="Senha" {...senha} />
+                <Input
+                    label="Email"
+                    error={email.error}
+                    value={email.value}
+                    onChange={email.onChange}
+                    onBlur={email.onBlur}
+                />
+                <Input
+                    label="Senha"
+                    error={senha.error}
+                    value={senha.value}
+                    onChange={senha.onChange}
+                    onBlur={senha.onBlur}
+                />
                 <Button onClick={handleClick} disabled={!!email.error || !!senha.error}>
                     Entrar
                 </Button>
