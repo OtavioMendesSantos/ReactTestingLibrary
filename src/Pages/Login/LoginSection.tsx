@@ -10,14 +10,57 @@ const LoginSection = () => {
         console.log("Clicou Login", e)
     }
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        register()
+    }
+
+    const register = async () => {
+        try {
+
+            const payload = {
+                email: email.value,
+                password: senha.value,
+            };
+
+            const options: RequestInit = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            }
+
+            const response = await fetch('https://reqres.in/api/login', options)
+            const data = await response.json()
+            alert(JSON.stringify(data))
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
-        <form style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%', height: '100%', justifyContent: 'space-between' }}>
-            <Input label="Email" {...email} />
-            <Input label="Senha" {...senha} />
-            <Button onClick={handleClick}>
-                Entrar
-            </Button>
-        </form>
+        <>
+            <form
+                onSubmit={handleSubmit}
+                style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%', height: '100%', justifyContent: 'space-between' }}
+            >
+                <Input label="Email" {...email} />
+                <Input label="Senha" {...senha} />
+                <Button onClick={handleClick} disabled={!!email.error || !!senha.error}>
+                    Entrar
+                </Button>
+            </form>
+            <div className="alert">
+                <h1>Nota do Autor</h1>
+                <p>Estou utilizando a api Reqres para simular uma autenticação, para testar o login é necessário utilizar um email e senha padrão, utilize:</p>
+                <p>
+                    email: eve.holt@reqres.in <br />
+                    password: cityslicka
+                </p>
+            </div>
+        </>
     )
 }
 

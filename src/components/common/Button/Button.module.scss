@@ -44,4 +44,18 @@
   &:active {
     scale: 1;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: grayscale(100%);
+
+    &:hover {
+      color: inherit;
+      box-shadow: none;
+      &::before {
+        scale: 0;
+      }
+    }
+  }
 }
