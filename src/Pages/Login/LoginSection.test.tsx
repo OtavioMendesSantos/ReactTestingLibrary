@@ -8,7 +8,7 @@ describe('LoginSection', () => {
         // Reseta o mock antes de cada teste
         vi.restoreAllMocks();
         // Mock de window.alert
-        vi.spyOn(window, 'alert').mockImplementation(() => { });
+        vi.spyOn(window, 'alert').mockImplementation(() => { }); //substitui o funcionamento real do alert
     });
 
     test('deve renderizar o componente Login', () => {
@@ -22,6 +22,7 @@ describe('LoginSection', () => {
             token: "QpwL5tke4Pnpja7X4",
         };
 
+        // Mock do fetch
         globalThis.fetch = vi.fn(() =>
             Promise.resolve({
                 json: () => Promise.resolve(mockResponse),
@@ -41,6 +42,7 @@ describe('LoginSection', () => {
         const button: HTMLButtonElement = screen.getByText('Entrar');
         fireEvent.click(button);
 
+        // Verifica se a chamada fetch foi feita corretamente
         await waitFor(() => {
             expect(globalThis.fetch).toHaveBeenCalledWith(
                 'https://reqres.in/api/login',
@@ -55,7 +57,8 @@ describe('LoginSection', () => {
             );
         });
 
-        // Verifica se a resposta da API foi tratada corretamente (como exibir um alerta)
+        // Verifica se a resposta da API foi tratada corretamente
+        // Verifica se o mock do alerta foi chamado com a mensagem de erro correta
         await waitFor(() => {
             expect(window.alert).toHaveBeenCalledWith(JSON.stringify(mockResponse));
         });

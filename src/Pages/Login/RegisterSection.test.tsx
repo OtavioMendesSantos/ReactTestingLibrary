@@ -27,6 +27,7 @@ describe('RegisterSection', () => {
                 json: () => Promise.resolve(mockResponse), // Simula a conversão da resposta para JSON
             })
         ) as unknown as typeof fetch;
+        
         render(<RegisterSection />);
 
         const email: HTMLInputElement = screen.getByLabelText('Email');
