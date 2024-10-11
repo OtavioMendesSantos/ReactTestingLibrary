@@ -23,8 +23,8 @@ const Login = () => {
       <section className={styles.loginContainer}>
         <nav className={styles.nav}>
           <ToggleButtonGroup initialIndex={0}	>
-            <ToggleButton onClick={handleButtonClick1}>Login</ToggleButton>
-            <ToggleButton onClick={handleButtonClick2}>Registrar</ToggleButton>
+            <ToggleButton onClick={handleButtonClick1}>LogIn</ToggleButton>
+            <ToggleButton onClick={handleButtonClick2}>LogOn</ToggleButton>
           </ToggleButtonGroup>
         </nav>
         {activeSection === "login" ? <LoginSection /> : <RegisterSection />}

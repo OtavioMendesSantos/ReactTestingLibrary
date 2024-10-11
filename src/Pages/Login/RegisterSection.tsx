@@ -33,7 +33,7 @@ const RegisterSection = () => {
 
             const response = await fetch('https://reqres.in/api/register', options)
             const data = await response.json()
-            alert(JSON.stringify(data))
+            window.alert(JSON.stringify(data))
         }
         catch (error) {
             console.log(error)

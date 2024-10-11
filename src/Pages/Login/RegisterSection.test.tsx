@@ -1,70 +1,69 @@
 import '@testing-library/jest-dom';
-import LoginSection from './LoginSection';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+import RegisterSection from './RegisterSection';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-describe('LoginSection', () => {
+describe('RegisterSection', () => {
     beforeEach(() => {
         // Reseta o mock antes de cada teste
         vi.restoreAllMocks();
         // Mock de window.alert
         vi.spyOn(window, 'alert').mockImplementation(() => { });
-    });
-
-    test('deve renderizar o componente Login', () => {
-        render(<LoginSection />);
-        expect(screen.getByText('Entrar')).toBeInTheDocument();
     })
 
-    test('deve preencher os campos de login e senha e realizar o login', async () => {
-        // Mock da resposta do fetch
+    test('deve renderizar o componente Register', () => {
+        render(<RegisterSection />);
+        expect(screen.getByText('Registrar')).toBeInTheDocument();
+    })
+
+    test('deve preencher os campos de email e senha e registrar', async () => {
         const mockResponse = {
             token: "QpwL5tke4Pnpja7X4",
-        };
+        }
 
         globalThis.fetch = vi.fn(() =>
             Promise.resolve({
-                json: () => Promise.resolve(mockResponse),
+                ok: true, // Indica que a resposta foi bem-sucedida
+                json: () => Promise.resolve(mockResponse), // Simula a conversão da resposta para JSON
             })
         ) as unknown as typeof fetch;
+        render(<RegisterSection />);
 
-        render(<LoginSection />);
-
-        const login: HTMLInputElement = screen.getByLabelText('Email');
-        fireEvent.change(login, { target: { value: 'eve.holt@reqres.in' } });
-        expect(login.value).toBe('eve.holt@reqres.in');
+        const email: HTMLInputElement = screen.getByLabelText('Email');
+        fireEvent.change(email, { target: { value: 'eve.holt@reqres.in' } });
+        expect(email.value).toBe('eve.holt@reqres.in');
 
         const password: HTMLInputElement = screen.getByLabelText('Senha');
-        fireEvent.change(password, { target: { value: 'cityslicka' } });
-        expect(password.value).toBe('cityslicka');
+        fireEvent.change(password, { target: { value: 'pistol' } });
+        expect(password.value).toBe('pistol');
 
-        const button: HTMLButtonElement = screen.getByText('Entrar');
+        const button: HTMLButtonElement = screen.getByText('Registrar');
         fireEvent.click(button);
 
         await waitFor(() => {
             expect(globalThis.fetch).toHaveBeenCalledWith(
-                'https://reqres.in/api/login',
+                'https://reqres.in/api/register',
                 expect.objectContaining({
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         email: 'eve.holt@reqres.in',
-                        password: 'cityslicka',
+                        password: 'pistol',
                     }),
                 })
             );
         });
 
-        // Verifica se a resposta da API foi tratada corretamente (como exibir um alerta)
         await waitFor(() => {
             expect(window.alert).toHaveBeenCalledWith(JSON.stringify(mockResponse));
         });
     })
 
-    test('deve preencher os campos de login e senha e dar erro ao realizar o login', async () => {
+    test('deve exibir uma mensagem de erro se o email for inválido', async () => {
+
         const mockErrorResponse = {
-            error: "Email ou senha inválidos",
-        };
+            error: "Email ou senha inválidos"
+        }
 
         globalThis.fetch = vi.fn(() =>
             Promise.resolve({
@@ -74,37 +73,36 @@ describe('LoginSection', () => {
             })
         ) as unknown as typeof fetch;
 
-        render(<LoginSection />);
+        render(<RegisterSection />);
 
-        const login: HTMLInputElement = screen.getByLabelText('Email');
-        fireEvent.change(login, { target: { value: 'eve.holt@reqres.in' } });
-        expect(login.value).toBe('eve.holt@reqres.in');
+        const email: HTMLInputElement = screen.getByLabelText('Email');
+        fireEvent.change(email, { target: { value: 'eve.holt@reqres.in' } });
+        expect(email.value).toBe('eve.holt@reqres.in');
 
         const password: HTMLInputElement = screen.getByLabelText('Senha');
-        fireEvent.change(password, { target: { value: 'cityslicka' } });
-        expect(password.value).toBe('cityslicka');
+        fireEvent.change(password, { target: { value: '123123' } });
+        expect(password.value).toBe('123123');
 
-        const button: HTMLButtonElement = screen.getByText('Entrar');
+        const button: HTMLButtonElement = screen.getByText('Registrar');
         fireEvent.click(button);
 
-        // Verifica se a chamada fetch foi feita corretamente
         await waitFor(() => {
             expect(globalThis.fetch).toHaveBeenCalledWith(
-                'https://reqres.in/api/login',
+                'https://reqres.in/api/register',
                 expect.objectContaining({
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         email: 'eve.holt@reqres.in',
-                        password: 'cityslicka',
+                        password: '123123',
                     }),
                 })
             );
         });
 
-        // Verifica se o alerta foi chamado com a mensagem de erro correta
         await waitFor(() => {
             expect(window.alert).toHaveBeenCalledWith(JSON.stringify(mockErrorResponse));
         });
+
     })
 })

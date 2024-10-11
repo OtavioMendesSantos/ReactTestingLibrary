@@ -8,6 +8,7 @@ import Login from './Login';
 vi.mock('./LoginSection', () => ({
   default: () => <div>Login Section Mock</div>,
 }));
+
 vi.mock('./RegisterSection', () => ({
   default: () => <div>Register Section Mock</div>,
 }));
@@ -19,23 +20,23 @@ describe('Login Component', () => {
     expect(screen.getByText('Login Section Mock')).toBeInTheDocument();
   });
 
-  test('deve alternar para a seção de registro ao clicar no botão "Registrar"', () => {
+  test('deve alternar para a seção de registro ao clicar no botão "LogOn"', () => {
     render(<Login />);
 
-    const registerButton = screen.getByText('Registrar');
+    const registerButton = screen.getByText('LogOn');
     fireEvent.click(registerButton);
 
     expect(screen.getByText('Register Section Mock')).toBeInTheDocument();
     expect(screen.queryByText('Login Section Mock')).not.toBeInTheDocument();
   });
 
-  test('deve voltar para a seção de login ao clicar no botão "Login"', () => {
+  test('deve voltar para a seção de login ao clicar no botão "LogIn"', () => {
     render(<Login />);
 
-    const registerButton = screen.getByText('Registrar');
+    const registerButton = screen.getByText('LogOn');
     fireEvent.click(registerButton);
 
-    const loginButton = screen.getByText('Login');
+    const loginButton = screen.getByText('LogIn');
     fireEvent.click(loginButton);
 
     expect(screen.getByText('Login Section Mock')).toBeInTheDocument();
